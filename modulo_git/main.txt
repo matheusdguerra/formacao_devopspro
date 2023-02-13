@@ -1,3 +1,5 @@
 main
 nova linha repo remoto
 nova linha teste perfeito
+
+nova linha remoto fetch
