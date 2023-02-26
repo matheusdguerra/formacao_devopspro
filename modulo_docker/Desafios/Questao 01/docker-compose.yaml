@@ -14,8 +14,8 @@ services:
   #container mongodb
   mongodb:
     image: mongo:4.4.3
-    ports:
-      - 27017:27017
+    # ports:
+    #   - 27017:27017
     networks:
       - mongodb_net
     volumes:

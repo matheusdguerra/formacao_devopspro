@@ -1,0 +1,39 @@
+# Versão do compose 
+version: '3.8'
+# Criação do volume
+volumes:
+  mariadb_vol:
+
+# Criação da network
+networks:
+  mariadb_net:
+    driver: bridge
+
+# containers (services) que farão parte da Stack
+services:
+  #container mariadb
+  mariadb:
+    image: mariadb:10.9.5
+    networks:
+      - mariadb_net
+    volumes:
+      - mariadb_vol:/var/lib/mysql
+    environment:
+      MARIADB_ROOT_PASSWORD: ${PASSWORD_ROOT_MARIADB}
+    # ports:
+    #   - 3306:3306
+
+  # container phpmyadmin
+  phpmyadmin:
+    image: phpmyadmin:5.2.1
+    depends_on:
+      - mariadb
+    networks:
+      - mariadb_net
+    environment:
+      MYSQL_ROOT_PASSWORD: ${PASSWORD_ROOT_MARIADB}
+      PMA_HOST: mariadb
+      PMA_PORT: 3306
+      PMA_ARBITRARY: 1
+    ports:
+      - 80:80
