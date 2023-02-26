@@ -1,0 +1,43 @@
+# Versão do compose 
+version: '3.8'
+# Criação do volume
+volumes:
+  mongo_vol:
+# Criação da network
+networks:
+  produto_net:
+    driver: bridge
+
+# containers (services) que farão parte da Stack
+services:
+  # container API
+  api:
+    image: matdavgue/api-produto:${TAG}
+    # Build da imagem utilizando o Dockerfile contruído no momento que executa o Doker-compose up
+    build:
+      dockerfile: ./Dockerfile
+      context: ./src
+
+    ports:
+      - 8080:8080
+    networks:
+      - produto_net
+    # só cria o container api após a criação do container mongodb 
+    depends_on:
+      - mongodb
+    environment:
+      MONGODB_URI: mongodb://mongouser:mongopwd@mongodb:27017/admin
+
+  #container mongodb
+  mongodb:
+    image: mongo:4.4.3
+    ports:
+      - 27017:27017
+    networks:
+      - produto_net
+    volumes:
+      - mongo_vol:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: mongouser
+      MONGO_INITDB_ROOT_PASSWORD: mongopwd
+    
