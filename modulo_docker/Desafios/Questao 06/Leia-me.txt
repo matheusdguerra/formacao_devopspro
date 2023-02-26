@@ -1,0 +1,10 @@
+Ótimo! Agora, vamos exercitar a construção de projetos em containers. 
+O objetivo aqui é fazer o fork de 3 repositórios, com aplicações diferentes (estão logo abaixo) e criar o Dockerfile e o docker compose pra subir as aplicações em containers.
+
+[Aplicação escrita em NodeJS](https://github.com/KubeDev/conversao-temperatura)
+
+[Aplicação escrita em Python utilizando Flask](https://github.com/KubeDev/conversao-distancia)
+
+[Aplicação escrita em C# utilizando ASP.NET Core](https://github.com/KubeDev/conversao-peso)
+
+Coloca aqui abaixo o link dos 3 repositórios que você subir a solução.

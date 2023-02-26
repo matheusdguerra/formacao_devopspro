@@ -1,0 +1,2 @@
+Crie um docker compose com o banco de dados MongoDB e a ferramenta de interface Mongo Express (https://github.com/mongo-express/mongo-express). 
+Assim, você terá um ambiente em containers pra utilizar esse banco de dados.

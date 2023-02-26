@@ -1,0 +1,15 @@
+Sensacional! Agora que você já afiou o seu conhecimento sobre criação de imagens Docker, tá na hora de fazer o deploy de aplicações 100% em containers Docker. 
+Então, você vai fazer o deploy de 2 aplicações: 
+
+- Rotten-Potatoes, que é escrita em Python e utiliza um banco de dados MongoDB
+- KubeNews que usa NodeJS e um banco Postgre. 
+
+Não esquece também de adicionar a interface de administração do banco relacionado.
+
+Segue os repositórios de cada projeto:
+
+[Rotten Potatoes](https://github.com/KubeDev/rotten-potatoes)
+
+[Kube News](https://github.com/KubeDev/kube-news)
+
+Faça o fork dos projetos e depois coloca no campo abaixo os seus repositórios com a solução.
