@@ -1,0 +1,14 @@
+# Versão do compose 
+version: '3.8'
+
+# containers (services) que farão parte da Stack
+services:
+  # container API
+  api:
+    image: matdavgue/conversao-distancia:${TAG}
+    # Build da imagem utilizando o Dockerfile contruído no momento que executa o Doker-compose up
+    build:
+      dockerfile: ./Dockerfile
+      context: ./
+    ports:
+      - 5000:5000    
