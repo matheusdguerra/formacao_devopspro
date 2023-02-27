@@ -1,0 +1,15 @@
+# Versão do compose 
+version: '3.8'
+
+# containers (services) que farão parte da Stack
+services:
+  # container API
+  api:
+    image: matdavgue/conversao-temperatura:${TAG}
+    # Build da imagem utilizando o Dockerfile contruído no momento que executa o Doker-compose up
+    build:
+      dockerfile: ./Dockerfile
+      context: ./src
+    ports:
+      - 8080:8080
+    
