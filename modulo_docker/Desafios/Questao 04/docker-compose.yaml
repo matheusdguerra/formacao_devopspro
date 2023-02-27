@@ -1,0 +1,34 @@
+# Versão do compose 
+version: '3.8'
+# Criação do volume
+volumes:
+  redis_vol:
+
+# Criação da network
+networks:
+  redis_net:
+    driver: bridge
+
+# containers (services) que farão parte da Stack
+services:
+ #container redis
+  redis:
+    hostname: redis
+    image: redis:7
+    networks:
+      - redis_net
+    # ports:
+    #   - 6379:6379
+    command: redis-server --requirepass ${PASSWORD_REDIS}
+    volumes:
+      - redis_vol:/data
+
+  # container redis commander
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    networks:
+      - redis_net
+    environment:
+      REDIS_HOST: local:redis:6379
+    ports:
+    - 8083:8081 #Antivirus local estava usando a porta 8081
