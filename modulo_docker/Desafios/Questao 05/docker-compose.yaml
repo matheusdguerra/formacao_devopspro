@@ -1,0 +1,45 @@
+version: '3.8'
+
+networks:
+  wordpress-network:
+    driver: bridge
+
+volumes:
+  wordpress_vol:
+  mysql_vol:
+
+services:
+  # Container MySQL
+  mysql:
+    image: mysql:5.7.22
+    command: mysqld --default_authentication_plugin=mysql_native_password
+    environment:
+      TZ: America/Sao_Paulo
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_USER: ${USERNAME_MYSQL}
+      MYSQL_PASSWORD: ${PASSWORD_MYSQL}
+      MYSQL_DATABASE: ${DATABASE_MYSQL}
+    # ports:
+    #   - 3306:3306
+    networks:
+      - wordpress-network
+    volumes:
+      - mysql_vol:/var/lib/mysql
+ 
+  # Container Wordpress
+  wordpress:
+    image: wordpress:latest
+    volumes:
+      - wordpress_vol:/var/www/html
+    environment:
+      TZ: America/Sao_Paulo
+      WORDPRESS_DB_HOST: mysql
+      WORDPRESS_DB_NAME: ${DATABASE_MYSQL}
+      WORDPRESS_DB_USER: ${USERNAME_MYSQL}
+      WORDPRESS_DB_PASSWORD: ${PASSWORD_MYSQL}
+    ports:
+      - 80:80
+    networks:
+      - wordpress-network
+    depends_on:
+      - mysql
