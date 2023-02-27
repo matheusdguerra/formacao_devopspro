@@ -1,0 +1,37 @@
+# Versão do compose 
+version: '3.8'
+# Criação do volume
+volumes:
+  postgres_vol:
+
+# Criação da network
+networks:
+  postgres_net:
+    driver: bridge
+
+# containers (services) que farão parte da Stack
+services:
+  #container postgres
+  postgres:
+    image: postgres:15
+    networks:
+      - postgres_net
+    volumes:
+      - postgres_vol:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+    # ports:
+    #  - 5432:5432
+
+  # container pgadmin
+  pgadmin:
+    image: dpage/pgadmin4:6.20
+    depends_on:
+      - postgres
+    networks:
+      - postgres_net
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "postgres@postgres.com"
+      PGADMIN_DEFAULT_PASSWORD: "postgres"
+    ports:
+      - 80:80
