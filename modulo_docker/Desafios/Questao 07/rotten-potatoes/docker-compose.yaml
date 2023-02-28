@@ -1,0 +1,63 @@
+# Versão do compose 
+version: '3.8'
+# Criação do volume
+volumes:
+  mongodb_vol:
+
+# Criação da network
+networks:
+  rotten-potatoes_net:
+    driver: bridge
+
+# containers (services) que farão parte da Stack
+services:
+  #container mongodb
+  mongodb:
+    hostname:
+      mongodb
+    image: mongo:4.4.3
+    # ports:
+    #   - 27017:27017
+    networks:
+      - rotten-potatoes_net
+    volumes:
+      - mongodb_vol:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+    
+  # container Mongo Express
+  mongo-express:
+    image: mongo-express:0.54.0
+    depends_on:
+      - mongodb
+    networks:
+      - rotten-potatoes_net
+    environment:
+      ME_CONFIG_BASICAUTH_USERNAME: ${USERNAME_EXPRESS}
+      ME_CONFIG_BASICAUTH_PASSWORD: ${PASSWORD_EXPRESS}
+      ME_CONFIG_MONGODB_SERVER: ${MONGODB_HOST}
+      ME_CONFIG_MONGODB_ADMINUSERNAME: ${MONGODB_USERNAME}
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGODB_PASSWORD}
+    ports:
+      - 8083:8081 #Antivirus local estava usando a porta 8081
+
+  # container API
+  api:
+    image: matdavgue/rotten-potatoes:${TAG}
+    # Build da imagem utilizando o Dockerfile contruído no momento que executa o Doker-compose up
+    build:
+      dockerfile: ./Dockerfile
+      context: ./src
+    depends_on:
+      - mongodb
+    networks:
+      - rotten-potatoes_net
+    ports:
+      - 5000:5000
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+      MONGODB_PORT: 27017
+      MONGODB_DB: admin
+      MONGODB_HOST: ${MONGODB_HOST}
