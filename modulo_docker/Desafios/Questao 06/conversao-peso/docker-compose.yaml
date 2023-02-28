@@ -12,4 +12,3 @@ services:
       context: ./ConversaoPeso.Web
     ports:
       - 80:80
-    
