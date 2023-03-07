@@ -1,0 +1,20 @@
+# Manisfesto para criação de um pod de forma declarativa
+
+# Representa o agrupamento da API do objeto que será criado
+# Executa kubectl api-resources para descobrir a versão
+apiVersion: v1
+
+# É o tipo de objeto que será criado
+kind: Pod
+
+# Metadata dos pods, atributos, nomes e infromações sobre o Pod
+metadata:
+  name: podaverde
+  labels:
+      app: nginx
+      versao: verde
+# Especificação do pod
+spec:
+  containers:
+    - name: meucontainer
+      image: kubedevio/nginx-color:green

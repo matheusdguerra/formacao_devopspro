@@ -1,0 +1,33 @@
+# Manisfesto para criação de um pod de forma declarativa
+
+# Representa o agrupamento da API do objeto que será criado
+# Executa kubectl api-resources para descobrir a versão
+apiVersion: apps/v1
+
+# É o tipo de objeto que será criado
+kind: ReplicaSet
+
+# Metadata do replicaset, atributos, nomes e informações sobre o replicaset
+metadata:
+  name: teste-replicaset
+
+# Especificação do replicaset
+spec:
+  # escalabilidade de 10 pods
+  replicas: 10
+  # Para fazer match com labels dos pods
+  selector:
+    matchLabels:
+      app: exemplo
+  # especificação do pod para o replicaset
+  template:
+    metadata:
+      # match com labels
+      labels:
+        app: exemplo
+    # especificação do pod
+    spec:
+      containers:
+        - name: meucontainer
+          image: kubedevio/nginx-color:blue
+  

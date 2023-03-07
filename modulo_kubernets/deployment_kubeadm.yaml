@@ -1,3 +1,5 @@
+# Utilizado para subir uma aplicação no cluster kubernets kubeadm na Digital Ocean
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
