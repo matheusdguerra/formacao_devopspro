@@ -13,7 +13,7 @@ metadata:
 
 # Especificação do deployment
 spec:
-  # ajuste de replicas par escalabilidade
+  # ajuste de replicas para escalabilidade
   replicas: 25
   selector:
     matchLabels:
@@ -28,5 +28,5 @@ spec:
     spec:
       containers:
         - name: meucontainer
-          image: kubedevio/nginx-color:green
+          image: kubedevio/api-conversao:v1-machine-name
   
