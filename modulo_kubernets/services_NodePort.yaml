@@ -7,8 +7,7 @@ spec:
     # selector/labels do deployment.yaml. Pega todos os pods com label exemplo
     app: exemplo
   ports:
-  - protocol: TCP
-    port: 80
+    #TCP é o padrão
+  - port: 80
     targetPort: 8080
-    # Quando não definido o tipo o default é ClusterIP
-  type: ClusterIP
+  type: NodePort

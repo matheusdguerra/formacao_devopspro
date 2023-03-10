@@ -14,7 +14,7 @@ metadata:
 # Especificação do deployment
 spec:
   # ajuste de replicas para escalabilidade
-  replicas: 25
+  replicas: 5
   selector:
     matchLabels:
       app: exemplo
