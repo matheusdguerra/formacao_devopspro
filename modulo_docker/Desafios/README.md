@@ -32,8 +32,6 @@ Uma solução Wordpress em containers !!! Crie o seu docker compose utilizando a
 
 [Aplicação escrita em C# utilizando ASP.NET Core](https://github.com/KubeDev/conversao-peso)
 
-Coloca aqui abaixo o link dos 3 repositórios que você subir a solução.
-
 [**Questão 07**]
 
 Sensacional! Agora que você já afiou o seu conhecimento sobre criação de imagens Docker, tá na hora de fazer o deploy de aplicações 100% em containers Docker. 
