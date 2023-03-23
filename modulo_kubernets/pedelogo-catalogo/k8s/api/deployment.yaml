@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+      - name: api
+        image: matdavgue/pedelogo-catalogo:v1.0.0
+        ports:
+        - containerPort: 80
+          name: http
+        - containerPort: 443
+          name: https
+        # Regra para baixar a imagem do repositório
+        imagePullPolicy: Always
+        env:
+          - name: Mongo__Host
+           # nome do services
+            value: "mongo-service"
+          - name: Mongo__User
+            value: mongouser
+          - name: Mongo__Password
+            value: mongopwd
+          - name: Mongo__Port
+            value: "27017"
+          - name: Mongo__DataBase
+            value: "admin"
