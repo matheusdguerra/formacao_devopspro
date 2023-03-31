@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  selector:
+    matchLabels:
+      app: api
+  template:
+    metadata:
+      labels:
+        app: api
+    spec:
+      containers:
+        - name: api
+          image: matdavgue/pedelogo-catalogo:v1.0.0
+          ports:
+          - containerPort: 80
+            name: http
+          - containerPort: 443
+            name: https
+        # Regra para baixar a imagem do repositório
+          imagePullPolicy: Always
+
+          # Uma parte das variaveis será pego do api-configmap utilizando chave/valor
+          # e o restante da mongo-configmap utilizando apenas os valores pois as chaves são diferentes
+          envFrom:
+            - configMapRef:
+                name: api-configmap
+          env:
+          - name: Mongo__User
+            valueFrom:
+               configMapKeyRef:
+                 key: MONGO_INITDB_ROOT_USERNAME
+                 name: mongodb-configmap
+          - name: Mongo__Password
+            valueFrom:
+              configMapKeyRef:
+                key: MONGO_INITDB_ROOT_PASSWORD
+                name: mongodb-configmap
