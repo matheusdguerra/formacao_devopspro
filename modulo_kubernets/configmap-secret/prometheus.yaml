@@ -1,0 +1,15 @@
+# Para teste de criação de configmap via linha de comando para armazenar um arquivos como chave 
+
+global:
+  scrape_interval: "1m"
+  scrape_timeout: "10s"
+  evaluation_interval: "1m"
+
+scrape_configs:
+  - job_name: teste
+    metrics_path: /metrics
+    honor_labels: false
+    honor_timestamps: true
+
+  - job_name: teste2
+    metrics_path: /metrics
