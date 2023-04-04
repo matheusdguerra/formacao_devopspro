@@ -1,0 +1,25 @@
+https://hub.docker.com/_/microsoft-windows-servercore-iis
+
+- Create a Dockerfile with your website
+
+FROM mcr.microsoft.com/windows/servercore/iis
+RUN powershell -NoProfile -Command Remove-Item -Recurse C:\inetpub\wwwroot\*
+WORKDIR /inetpub/wwwroot
+COPY content/ .
+
+- You can then build and run the Docker image:
+
+docker build -t iis-site .
+docker run -d -p 8000:80 --name my-running-site iis-site
+
+
+-----------------------------------------------------------------------------------------------------------
+
+
+=> ERROR [internal] load metadata for mcr.microsoft.com/windows/servercore/iis:latest
+------
+ > [internal] load metadata for mcr.microsoft.com/windows/servercore/iis:latest:
+------
+failed to solve with frontend dockerfile.v0: failed to create LLB definition: no match for platform in manifest sha256:7df14b60ff8bd520495e8ca43944d5ef02a86a0bc985b700e5ea4e4a550feb6b: not found
+
+https://stackoverflow.com/questions/65149702/docker-desktop-cannot-switch-to-windows-container/67007851#67007851
