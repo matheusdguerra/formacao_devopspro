@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: api
+  template: 
+    metadata:       
+      labels:
+        app: api
+    spec:      
+      containers:
+      - name: api
+        image: fabricioveronez/pedelogo-catalogo:1.0.0
+        ports:
+        - containerPort: 80
+        imagePullPolicy: Always
+        readinessProbe:
+          httpGet:
+            path: /read
+            port: 80
+            scheme: HTTP
+          timeoutSeconds: 1
+          failureThreshold: 3
+          periodSeconds: 5
+          successThreshold: 1 # Quantidade de sucessos para zerar o failureThreshold
+        startupProbe:
+          httpGet:
+            path: /health
+            port: 80
+            scheme: HTTP
+          failureThreshold: 30 # Quantidade de tempo apra aguardar a aplicação entrar no ar
+          periodSeconds: 10
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 80
+            scheme: HTTP
+          initialDelaySeconds: 10 # Usado para aguardar algum tempo antes de começar a realizar os testes
+          periodSeconds: 5 # espaço de tempo entre testes
+          timeoutSeconds: 1 # tempo para aguardar resposta
+          failureThreshold: 1 # Quantidade de erros que devem ocorrem para reinciar o pod
+        envFrom:
+          - configMapRef:
+              name: api-configmap
+        env:
+          - name: Mongo__User
+            valueFrom:
+              secretKeyRef:
+                key: MONGO_INITDB_ROOT_USERNAME
+                name: mongodb-secret
+          - name: Mongo__Password
+            valueFrom:
+              secretKeyRef:
+                key: MONGO_INITDB_ROOT_PASSWORD
+                name: mongodb-secret
