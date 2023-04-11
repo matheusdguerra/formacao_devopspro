@@ -1,0 +1,46 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: resources-container
+spec:
+  selector:
+    matchLabels:
+      app: resources-container
+  template:
+    metadata:
+      labels:
+        app: resources-container
+    spec:
+      containers:
+      - name: resources-container
+        image: gcr.io/kubernetes-e2e-test-images/resource-consumer:1.4
+        resources:
+          # Recursos garantidos para rodar a aplicação
+          requests:
+            memory: "32Mi"
+            # CPU -> 1000 = 1 núcleo | 2000 = 2 núcleos | 100 = 10% de um núcleo
+            cpu: "100m"   
+          # Recursos limites para rodar a aplicação 
+          limits:
+            memory: "64Mi"
+            cpu: "500m"
+        command:
+        # Command: Usado para executar comandos dentro do container
+          - "/consumer"
+          - -port
+          - "8080"
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: resources-container-service
+spec:
+  selector:
+    app: resources-container
+  ports:
+  - port: 80
+    targetPort: 8080
+
+  
