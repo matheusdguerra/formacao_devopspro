@@ -1,0 +1,15 @@
+apiVersion: autoscaling/v1
+kind: HorizontalPodAutoscaler
+metadata:
+  name: hpa-deployment
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    # Mesmo nome do elemento que será escalado
+    name: resources-container
+  minReplicas: 1
+  maxReplicas: 10
+  # Quando chegar em 50% do que está configurado no request do elemento resources o autoscaling irá ciar as replicas dos pods.
+  # Quando consumo diminuir as replicar vão sendo eliminadas
+  targetCPUUtilizationPercentage: 50
