@@ -15,7 +15,15 @@ spec:
       - name: mongodb
         image: mongo:4.2.8
         ports:
-        - containerPort: 27017        
+        - containerPort: 27017
+        # QoS Guaranteed 
+        resources:
+          requests:
+            memory: 256Mi
+            cpu: 1000m
+          limits:
+            memory: 256Mi
+            cpu: 1000m         
         envFrom:
           - secretRef:
               name: mongodb-secret
