@@ -7,5 +7,5 @@ spec:
     app: api
   ports:
   - port: 80
-    targetPort: 80
-  type: NodePort
+  #type: NodePort
+  type: LoadBalancer

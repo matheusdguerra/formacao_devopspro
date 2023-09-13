@@ -16,6 +16,9 @@ spec:
         image: mongo:4.2.8
         ports:
         - containerPort: 27017
+        volumeMounts:
+          - mountPath: /data/db
+            name: mongo-data 
         # QoS Guaranteed 
         resources:
           requests:
@@ -27,4 +30,8 @@ spec:
         envFrom:
           - secretRef:
               name: mongodb-secret
-
+      volumes:
+        - name: mongo-data
+          persistentVolumeClaim:
+            claimName: azure-pvc
+          
