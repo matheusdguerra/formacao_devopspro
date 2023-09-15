@@ -12,3 +12,5 @@ Repositório utilizado durante a formação DevOps PRO
 ✔ Jaeger
 ✔ Terraform
 ✔ Ansible
+
+https://curso.devopspro.com.br/curso/
