@@ -1,0 +1,182 @@
+https://hub.docker.com/repositories/matdavgue
+https://cloud.digitalocean.com/projects/d6ccff5c-e35a-4ce8-bfff-201423a0c726/resources?i=85e072&preserveScrollPosition=true
+https://registry.terraform.io/browse/providers
+https://registry.terraform.io/providers/digitalocean/digitalocean/latest/docs
+https://registry.terraform.io/providers/hashicorp/local/latest/docs/resources/file
+https://github.com/matheusdguerra
+
+
+###   Docker
+
+Clone projeto do git -> git clone https://github.com/matheusdguerra/conversao-temperatura.git
+Abrir VSconde na pasta atual -> code .
+criar conteiner docker a partir de um Dockerfile -> docker build -t matdavgue/consversao-temperatura:v1 .
+Remover imagens não utilizadas -> docker image prune
+Enviar imagem criada para dockerhub ->  docker push matdavgue/consversao-temperatura:v1
+Enviar imagem com tag docker tag latest -> docker tag matdavgue/consversao-temperatura:v1 matdavgue/consversao-temperatura:latest
+Vizualizar imagens criadas -> docker image ls
+Subir o conteiner a partir do dockerhub -> docker container run -d -p 8080:8080 matdavgue/consversao-temperatura:v1
+
+
+
+### Cluster kubernetes
+
+INSTALAÇÃO chocolatey (The Package Manager for Windows)
+https://chocolatey.org/
+Set-ExecutionPolicy Bypass -Scope Process -Force; [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor 3072; iex ((New-Object System.Net.WebClient).DownloadString('https://community.chocolatey.org/install.ps1'))
+
+
+Instalaçao K3D
+https://k3d.io/v5.4.6/#installation
+choco install k3d
+
+
+Instalação kubectl 
+https://kubernetes.io/docs/tasks/tools/install-kubectl-windows/
+choco install kubernetes-cli
+
+Criação do cluter kubernets com k3d -> k3d cluster create
+Criação do cluter kubernets com k3d sem load balance -> k3d cluster create --no-lb
+Criação do cluter kubernets com k3d nomeado -> k3d cluster create --no-lb meu-cluster
+Criação do cluter kubernets com k3d com port bind -> k3d cluster create meu-cluster -p "80:30000@loadbalancer"
+Listar nós do cluster kubernets -> kubectl get nodes
+
+Listar cluster kubernets -> k3d cluster list
+Visualizar conteiners criados -> docker container ls
+Remover cluster -> k3d cluster delete
+
+Criação de cluster com 3 server e 3 agents -> k3d cluster create meu-cluster --servers 3 --agents 3
+
+Criação dos PODs
+Criação do arquivo pod.yaml
+Verificação da versão --> kubectl api-resources
+
+criar pod -> kubectl create -f .\pod.yaml  |  kubectl apply -f .\pod.yaml
+Listar pods -> kubectl get pods
+Listar pods com chave 'cor' igual a 'azul' kubectl get pods -l cor=azul
+Verificar mais dados do pod --> kubectl describe pod meu-pod
+
+Para acessar o pod precisa ser feito um redirecionamento de portas -> kubectl port-forward pod/meu-pod 8080:80 (http://localhost:8080/)
+
+Rolback de deployment --> kubectl rollout undo deployment meu-deployment
+
+Listar pod, service, deployment, replicaset -> kubectl get all
+
+Para acessar o services precisa ser feito um redirecionamento de portas -> kubectl port-forward service/meu-service 8080:80 (http://localhost:8080/)
+
+
+### Terraform / cloud provider
+
+Criar chave ssh para acesso ao Digital Ocean (C:\Users\matheus.guerra\.ssh) (senha 123456) -> ssh-keygen -t rsa -b 2048 
+Pegar chave gerada para colocar no Digital Ocean -> cat C:\Users\matheus.guerra\.ssh\id_rsa.pub
+ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDpashEVNxe8oOC1I6ESctPsS0a+UkimKXaLb2asMuF2lerQtqRdBdrpb8u3coik5eEUHzrKUE6k4hREa98Nc0p2Z0sVTbcfd+4pkpyzzEob+hqTtxsj/B2h0uGkeJHQiu9VBKJvCMEJvxfGdMaFJ1PW2egD09b3UJvSLjFn3uGmltzXOMnAg7qMcSwwFrE1UaBZmN74Fxjrjg4eUlDNXbaipg78soNRwcf8VDhgFTVM8lMaE0qe3gvRWa+J4nD7WaYA4Y1ju4ngOEs5Z/CV3rKVBU0ktVPIkAe7rLj0YWOFCOOPlyRovlryeeNBn1TwF1FRY+hakJtdCDOGUVKx/JJ cetil\matheus.guerra@GSUL2681
+
+Criação do kubernets no Digital Ocean
+Criação do Droplets (máquian virtual) no Digital Ocean
+IP 67.205.170.159
+
+copiar kubeconfig baixado da digital ocena para pasta .kube ->  cp .\kube_config.yaml C:\Users\matheus.guerra\.kube\config
+
+Acessando máquina virtual -> ssh root@24.199.80.212
+
+Acessando kubernets
+
+Instalação terraform -> Download, descompactação, criação de variavel do ambinete da pasta onde fica o executavel do terraform
+
+criação do arquivo main.tf
+ajuste do token, gerado no Digital Ocean -> token = "dop_v1_31574c1887aae1de7cb73f7cda96dcb6cc8314b812bc7357bd67a33f9e984eb1"
+Inicar projeto terraform ->  terraform init
+Criar droplet na digital ocean -> terraform apply
+Formatação automatica do arquivo main.tf ->  terraform fmt
+Mostrar plano de execuçaõ sem executar ele -> terraform plan
+
+
+Destruir infraestrutura criada -> terraform destroy
+
+
+### Jenkins | CI/CD | automação | pipeline
+
+Integração continua -> Codificação -> Commit -> Build -> Testes -> Geração do pacote de entrega (Release)
+Entrega continua -> Release -> Testes -> Aceite -> Deploy produção/homologação
+
+Inicar projeto terraform ->  terraform init
+Criar VM jenkins e Cluster Kubernets na digital ocean -> terraform apply
+copiar kubeconfig baixado da digital ocena para pasta .kube ->  cp .\kube_config.yaml C:\Users\matheus.guerra\.kube\config
+
+Instalação do jenkins na VM (https://www.jenkins.io/doc/book/installing/linux/)
+Acessando máquina virtual -> ssh root@104.248.54.114
+Pre-requisitos
+	instalação do Java
+	apt update
+	apt install openjdk-17-jdk -y
+
+curl -fsSL https://pkg.jenkins.io/debian-stable/jenkins.io.key | sudo tee \
+  /usr/share/keyrings/jenkins-keyring.asc > /dev/null
+echo deb [signed-by=/usr/share/keyrings/jenkins-keyring.asc] \
+  https://pkg.jenkins.io/debian-stable binary/ | sudo tee \
+  /etc/apt/sources.list.d/jenkins.list > /dev/null
+sudo apt-get update
+sudo apt-get install jenkins
+
+Instalação do docker para criação de conteiner e Kubclt para interação com kubernets
+curl -fsSL https://get.docker.com/ | sh
+
+Adição do usuário jenkins no grupo de usuário do docker
+usermod -aG docker jenkins
+
+Reiniciar serviço jenkins 
+systemctl restart jenkins
+
+Verificar status do serviço jenkins
+systemctl status jenkins
+
+
+Instalação kubctl (https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/#install-using-native-package-management)
+sudo apt-get update
+sudo apt-get install -y ca-certificates curl
+sudo apt-get install -y apt-transport-https
+sudo curl -fsSLo /etc/apt/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg
+echo "deb [signed-by=/etc/apt/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+sudo apt-get update
+sudo apt-get install -y kubectl
+
+Acessar jenkins via Web
+http://104.248.54.114:8080/ (IP da VM criada no Digital Ocean)
+Pegra senha para primeiro acesso
+root@jenkins:~# cat /var/lib/jenkins/secrets/initialAdminPassword
+7da83422f783484eb19ccbfa82ccddb9
+
+usuario: matheusguerra
+senha: 123456
+instalação dos plugins do docker e kubernets
+Painel de controle -> gerencias jenkins -> gerenciador de extenções
+	- Docker
+	- Docker pipeline
+	- kubernetes CLI
+
+Criação da pipeline
+	- nova tarefa
+	- tipo -> pipeline
+
+
+Configuração do arquivos Jenkinsfile
+Senhas do dockerhube e kubernets no Jenkins
+
+
+
+### Prometheus - coletar metricas | Grafana - apresentação dashbords
+
+Instalação do Prometheus no Cluster Kubernets
+https://gist.githubusercontent.com/fabricioveronez/a9bceb94065d4689dcadd6c2a09d7322/raw/95ae9c66b0bfeaef0837e0042482c6579717e06c/deploy-prometheus-grafana.yaml
+
+
+Adicionar annotations prometheus no deployment.yaml WEB kub-news para monitorar PODS
+
+acesso grafana
+
+gitbash -> $ kubectl get secret grafana -o jsonpath="{.data.admin-password}" | base64 --decode ; echo
+zRRamylUGOfkG3RymZiGMxycbCIuaa0pP0WeTUf4
+
+sum(rate(http_requests_total[20s])) by (app)
+
+https://grafana.com/grafana/dashboards/11159-nodejs-application-dashboard/
