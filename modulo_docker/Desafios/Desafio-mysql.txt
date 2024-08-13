@@ -1,0 +1,1 @@
+docker container run -d -p 3306:3306 -e MUSQL_ROOT_PASSWORD="1234" -e MYSQL_DATABASE=docker_db -e MYSQL_USR=docker_usr -e MYSQL_PASSWORD=docker_pwd mysql
